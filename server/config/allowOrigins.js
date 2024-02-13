@@ -1,5 +1,5 @@
 const allowOrigins = [
-    'http://localhost:3000'
+    'https://arg-portofolio.vercel.app'
 ]
 
 module.exports = allowOrigins 
