@@ -69,7 +69,7 @@ export default function Banner() {
           ? desc
           : "Welcome to my portfolio! I am Auwal Abubakar, a passionate UX/UI designer with a keen eye for design and a drive for innovation. Through my diverse range of projects, I aim to showcase my creativity, technical proficiency, and dedication to delivering exceptional results."}
       </motion.p>
-      <a href="https://github.com/abdulrg01">
+      <a href="https://www.linkedin.com/in/auwal-abubakar-%E2%9A%A1-a54908125?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
         <motion.button
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
