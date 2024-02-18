@@ -1,17 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { motion, useInView } from "framer-motion";
 import { useGetProjectsDataQuery } from "@/redux/projects/projectApiSlice";
 
 export default function ProjectSection() {
   const ref = useRef(null);
+  const [projects, setProjects] = useState([]);
   const isInView = useInView(ref, { once: true });
   const cardVariants = {
     initial: { y: 50, opacity: 0 },
     animate: { y: 0, opacity: 1 },
   };
 
-  const { data, refetch } = useGetProjectsDataQuery(
+  const { data } = useGetProjectsDataQuery(
     {},
     {
       refetchOnMountOrArgChange: true,
@@ -19,8 +20,10 @@ export default function ProjectSection() {
   );
 
   useEffect(() => {
-    refetch();
-  }, []);
+    if (data) {
+      setProjects(data);
+    }
+  }, [data]);
 
   return (
     <div className="bg-gray-200 dark:bg-[#020A13]" id="project">
@@ -36,8 +39,8 @@ export default function ProjectSection() {
           ref={ref}
           class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-3 lg:grid-cols-3 sm:grid-cols-2 grid-cols-2"
         >
-          {data &&
-            data?.map((item, index) => (
+          {projects &&
+            projects.map((item, index) => (
               <motion.li
                 key={index}
                 variants={cardVariants}

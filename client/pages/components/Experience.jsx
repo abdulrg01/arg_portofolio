@@ -1,15 +1,17 @@
 import { useGetHistoryDataQuery } from "@/redux/history/historyApiSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetSkillsDataQuery } from "@/redux/skills/skillsApiSlice";
 
 export default function Experience() {
-  const { data: history, refetch } = useGetHistoryDataQuery(
+  const [history, setHistory] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const { data: historyData } = useGetHistoryDataQuery(
     {},
     {
       refetchOnMountOrArgChange: true,
     }
   );
-  const { data, refetch: skillsRefetch } = useGetSkillsDataQuery(
+  const { data } = useGetSkillsDataQuery(
     {},
     {
       refetchOnMountOrArgChange: true,
@@ -17,18 +19,27 @@ export default function Experience() {
   );
 
   useEffect(() => {
-    refetch();
-    skillsRefetch();
-  }, []);
+    if (historyData) {
+      setHistory(historyData);
+    }
+  }, [historyData]);
+
+  useEffect(() => {
+    if (data) {
+      setSkills(data);
+    }
+  }, [data]);
 
   return (
     <section id="experiance" className="bg-gray-200 dark:bg-[#020A13]">
       <div className="max-w-[1000px] mx-auto py-5 lg:py-14">
-        <h2 class="mb-20 head_text text-black dark:text-white title">Experience</h2>
+        <h2 class="mb-20 head_text text-black dark:text-white title">
+          Experience
+        </h2>
         <div className="content flex flex-row justify-evenly mt-[14px] ">
           <div className="skills w-[45%] flex flex-wrap gap-[37px]">
-            {data &&
-              data?.map((skill, index) => {
+            {skills &&
+              skills.map((skill, index) => {
                 return (
                   <div
                     key={index}
@@ -37,7 +48,7 @@ export default function Experience() {
                     <div className="skillImg rounded-full flex items-center justify-center w-[120px] h-[120px]">
                       <img
                         className="w-[75px]"
-                        src={skill.img.url}
+                        src={skill.img?.url}
                         alt={skill.title}
                       />
                     </div>
@@ -58,7 +69,7 @@ export default function Experience() {
                   >
                     <img
                       className="w-[50px]"
-                      src={item.imageSrc.url}
+                      src={item.imageSrc?.url}
                       alt={item.organisation}
                     />
                     <div className="historyItemDetails">
